@@ -25,6 +25,17 @@ class fornecedorModel {
         }
     }
 
+    async findByName(nome) {
+        try {
+            const conexao = await connectToDataBase()
+            const [rows] = await conexao.execute('SELECT * FROM FORNECEDOR WHERE NOME LIKE ?', [`%${nome}%`])
+            return rows
+        }
+        catch (err) {
+            throw new Error(`Erro ao buscar fornecedor por nome: ${err.message}`)
+        }
+    }
+
     async updateFornecedor(id, nome, telefone) {
         try {
             const conexao = await connectToDataBase()

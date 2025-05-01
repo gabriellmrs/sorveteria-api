@@ -21,9 +21,21 @@ const getFornecedor = (async (req, res) => {
     }
 })
 
+const getFornecedorByName = (async (req, res) => {
+    try {
+        const nome = req.params.nome
+        const row = await fornecedorModel.findByName(nome)
+        res.status(200).json(row)
+    }
+    catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+})
+
 const alterFornecedor = (async (req, res) => {
     try {
-        const {id, nome, telefone} = req.body
+        const {nome, telefone} = req.body
+        const { id } = req.params;
         await fornecedorModel.updateFornecedor(id, nome, telefone)
         res.status(200).send('FORNECEDOR ATUALIZADO!!')
     }
@@ -34,7 +46,7 @@ const alterFornecedor = (async (req, res) => {
 
 const removeFornecedor = (async (req, res) => {
     try {
-        const {id} = req.body
+        const {id} = req.params
         await fornecedorModel.deleteFornecedor(id)
         res.status(200).send('FORNECEDOR REMOVIDO COM SUCESSO!!')
     }
@@ -47,5 +59,6 @@ export default {
     postFornecedor,
     getFornecedor,
     alterFornecedor,
-    removeFornecedor
+    removeFornecedor,
+    getFornecedorByName
 }

@@ -28,18 +28,19 @@ const getProduto = (async (req, res) => {
 
 const getProdutoByName = (async (req, res) => {
     try {
-        const {nome} = req.body
+        const nome = req.params.nome
         const row = await produtoModel.findByName(nome)
         res.status(200).json(row)
     }
-    catch {
+    catch(err) {
         res.status(500).json({ error: err.message })
     }
 })
 
 const alterProduto = (async (req, res) => {
     try {
-        const {id, nome, valor} = req.body
+        const {nome, valor} = req.body
+        const { id } = req.params; 
         await produtoModel.updateProduto(id, nome, valor)
         res.status(200).send('Produto atualizado!')
     }
@@ -50,7 +51,7 @@ const alterProduto = (async (req, res) => {
 
 const removeProduto = (async (req, res) => {
     try {
-        const {id} = req.body
+        const {id} = req.params
         await produtoModel.deleteProduto(id)
         res.status(200).send('Produto removido')
     }
