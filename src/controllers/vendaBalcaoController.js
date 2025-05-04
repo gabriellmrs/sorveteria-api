@@ -22,6 +22,29 @@ const getVendaDia = (async (req, res) => {
     }
 })
 
+//BUSCA POR VENDA COM FILTRO
+const getVendaFilter = async (req, res) => {
+    try {
+        const filtros = {};
+        const { ano, mes, dia, valorVenda, formaDePagamento } = req.body;
+
+        if (!isNaN(parseInt(ano))) filtros.ano = parseInt(ano);
+        if (!isNaN(parseInt(mes))) filtros.mes = parseInt(mes);
+        if (!isNaN(parseInt(dia))) filtros.dia = parseInt(dia);
+        if (!isNaN(parseFloat(valorVenda))) filtros.valorVenda = parseFloat(valorVenda);
+        if (typeof formaDePagamento === 'string' && formaDePagamento.trim() !== '') {
+            filtros.formaDePagamento = formaDePagamento.trim();
+        }
+
+        const rows = await vendaBalcaoModel.findByFilter(filtros);
+        res.status(200).json(rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+
+
 const alterVenda = (async (req, res) => {
     try {
         const {valorVenda, formaDePagamento, valorPago} = req.body
@@ -49,5 +72,6 @@ export default {
     postVenda,
     getVendaDia,
     alterVenda,
-    removeVenda
+    removeVenda,
+    getVendaFilter
 }

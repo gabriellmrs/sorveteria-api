@@ -7,5 +7,6 @@ route.post('/venda',vendaBalcaoController.postVenda)
 route.get('/venda', vendaBalcaoController.getVendaDia)
 route.put('/venda/:id', vendaBalcaoController.alterVenda)
 route.delete('/venda/:id', vendaBalcaoController.removeVenda)
+route.post('/venda/filtro', vendaBalcaoController.getVendaFilter)
 
 export default route
