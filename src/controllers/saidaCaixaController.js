@@ -26,26 +26,13 @@ const getSaida = (async (req, res) => {
     }
 })
 
-const getSaidaByName = (async (req, res) => {
+const getSaidaDay = (async (req, res) => {
     try {
-        const nome = req.params.nome
-        const row = await saidaCaixaModel.findByName(nome)
+        const row = await saidaCaixaModel.find()
         res.status(200).json(row)
     }
     catch(err) {
-        res.status(500).json({ error: err.message })
-    }
-})
-
-const getSaidaByValue = (async (req, res) => {
-    try {
-
-        const valor = req.params.valor
-        const row = await saidaCaixaModel.findByValue(valor)
-        res.status(200).json(row)
-    }
-    catch(err) {
-        res.status(500).json({ error: err.message })
+        res.status(500).json({ error: err.message})
     }
 })
 
@@ -100,5 +87,6 @@ export default {
     getSaida,
     getSaidaFilter,
     removeSaida,
-    alterSaida
+    alterSaida,
+    getSaidaDay
 }

@@ -26,6 +26,19 @@ class saidaCaixaModel {
         }
     }
 
+    //BUSCA SAIDAS DO DIA
+    async find() {
+        try {
+            const conexao = await connectToDataBase()
+            const [response] = await conexao.execute(`
+                SELECT * FROM SAIDA WHERE DATE(DATA_SAIDA) = CURDATE()`)
+            return response
+        }
+        catch(err) {
+            throw new Error(`Erro ao consultar saida ${err.message} `)
+        }
+    }
+
     //BUSCA VENDA COM FILTRO
     async findByFilter(filtros) {
         try {

@@ -5,6 +5,7 @@ const route = express.Router()
 
 route.post('/saida',saidaCaixaController.postSaida)
 route.get('/saida',saidaCaixaController.getSaida)
+route.get('/saida/dia',saidaCaixaController.getSaidaDay)
 route.post('/saida/:filtro',saidaCaixaController.getSaidaFilter)
 route.delete('/saida/:id',saidaCaixaController.removeSaida)
 route.put('/saida/:id',saidaCaixaController.alterSaida)
