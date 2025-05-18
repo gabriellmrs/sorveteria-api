@@ -1,12 +1,14 @@
 import express from 'express'
 import vendaClienteController from '../src/controllers/vendaClienteController.js'
+import clienteController from '../src/controllers/clienteController.js'
 
-const route = express.Router()
+const router = express.Router()
 
-route.post('/v-cliente',vendaClienteController.postVenda)
-route.get('/v-cliente', vendaClienteController.getVendasDoDia)
-route.delete('/v-cliente/:id', vendaClienteController.deleteVenda)
-route.put('/v-cliente/:id',vendaClienteController.alterVenda)
-route.post('/v-cliente/:filter',vendaClienteController.getVendaClienteFilter)
+router.post('/v-cliente',vendaClienteController.postVenda)
+router.get('/v-cliente', vendaClienteController.getVendasDoDia)
+router.delete('/v-cliente/:id', vendaClienteController.deleteVenda)
+router.put('/v-cliente/:id',vendaClienteController.alterVenda)
+router.post('/v-cliente/:filter',vendaClienteController.getVendaClienteFilter)
+router.post('/clientes/:nome', clienteController.getClienteById)
 
-export default route
+export default router

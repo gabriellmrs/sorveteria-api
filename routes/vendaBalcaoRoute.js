@@ -1,12 +1,12 @@
 import express from 'express'
 import vendaBalcaoController from '../src/controllers/vendaBalcaoController.js'
 
-const route = express.Router()
+const router = express.Router()
 
-route.post('/venda',vendaBalcaoController.postVenda)
-route.get('/venda', vendaBalcaoController.getVendaDia)
-route.put('/venda/:id', vendaBalcaoController.alterVenda)
-route.delete('/venda/:id', vendaBalcaoController.removeVenda)
-route.post('/venda/filtro', vendaBalcaoController.getVendaFilter)
+router.post('/venda',vendaBalcaoController.postVenda)
+router.get('/venda', vendaBalcaoController.getVendaDia)
+router.put('/venda/:id', vendaBalcaoController.alterVenda)
+router.delete('/venda/:id', vendaBalcaoController.removeVenda)
+router.post('/venda/filtro', vendaBalcaoController.getVendaFilter)
 
-export default route
+export default router

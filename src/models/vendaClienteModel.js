@@ -1,7 +1,7 @@
 import { connectToDataBase } from "../db/connection.js"
 
 class vendaClienteModel {
-   
+
     async createVendaPorNomeCliente(nomeCliente, valorCompra) {
         try {
             const conexao = await connectToDataBase()
@@ -45,28 +45,34 @@ class vendaClienteModel {
         }
     }
 
-   async findVendasDoDia() {
-    try {
-        const conexao = await connectToDataBase()
-        const [response] = await conexao.execute(`
-            SELECT v.ID, v.VALOR_COMPRA, v.DATA_VENDA, c.NOME AS CLIENTE_NOME
+    async findVendasDoDia() {
+        try {
+            const conexao = await connectToDataBase()
+            const [response] = await conexao.execute(`
+            SELECT 
+                v.ID, 
+                v.VALOR_COMPRA, 
+                v.DATA_VENDA, 
+                c.NOME AS CLIENTE_NOME, 
+                c.CIDADE, 
+                c.BAIRRO
             FROM venda_cliente v
-            JOIN cliente c ON v.CLIENTE_ID = c.ID
-            WHERE DATE(v.DATA_VENDA) = CURDATE()
-            ORDER BY v.DATA_VENDA DESC
+                JOIN cliente c ON v.CLIENTE_ID = c.ID
+                WHERE DATE(v.DATA_VENDA) = CURDATE()
+                ORDER BY v.DATA_VENDA DESC
         `)
-        return response
-    } catch (err) {
-        throw new Error(`Erro ao buscar vendas do dia: ${err.message}`)
+            return response
+        } catch (err) {
+            throw new Error(`Erro ao buscar vendas do dia: ${err.message}`)
+        }
     }
-}
 
-
+    //filtros de pesquisa
     async findByFilter(filtros) {
-    try {
-        const conexao = await connectToDataBase()
+        try {
+            const conexao = await connectToDataBase()
 
-        let sql = `
+            let sql = `
             SELECT 
                 vc.ID,
                 vc.CLIENTE_ID,
@@ -81,49 +87,49 @@ class vendaClienteModel {
                 cliente c ON vc.CLIENTE_ID = c.ID
             WHERE 1 = 1
         `
-        const params = []
+            const params = []
 
-        if (typeof filtros.ano === 'number') {
-            sql += " AND YEAR(vc.DATA_VENDA) = ?"
-            params.push(filtros.ano)
+            if (typeof filtros.ano === 'number') {
+                sql += " AND YEAR(vc.DATA_VENDA) = ?"
+                params.push(filtros.ano)
+            }
+
+            if (typeof filtros.mes === 'number') {
+                sql += " AND MONTH(vc.DATA_VENDA) = ?"
+                params.push(filtros.mes)
+            }
+
+            if (typeof filtros.dia === 'number') {
+                sql += " AND DAY(vc.DATA_VENDA) = ?"
+                params.push(filtros.dia)
+            }
+
+            if (typeof filtros.valor_compra === 'number') {
+                sql += " AND vc.VALOR_COMPRA = ?"
+                params.push(filtros.valor_compra)
+            }
+
+            if (filtros.nome && filtros.nome.trim() !== '') {
+                sql += " AND c.NOME LIKE ?"
+                params.push(`%${filtros.nome.trim()}%`)
+            }
+
+            if (filtros.cidade && filtros.cidade.trim() !== '') {
+                sql += " AND c.CIDADE LIKE ?"
+                params.push(`%${filtros.cidade.trim()}%`)
+            }
+
+            if (filtros.bairro && filtros.bairro.trim() !== '') {
+                sql += " AND c.BAIRRO LIKE ?"
+                params.push(`%${filtros.bairro.trim()}%`)
+            }
+
+            const [rows] = await conexao.execute(sql, params)
+            return rows
+        } catch (err) {
+            throw new Error(`Erro ao buscar venda com filtros: ${err.message}`)
         }
-
-        if (typeof filtros.mes === 'number') {
-            sql += " AND MONTH(vc.DATA_VENDA) = ?"
-            params.push(filtros.mes)
-        }
-
-        if (typeof filtros.dia === 'number') {
-            sql += " AND DAY(vc.DATA_VENDA) = ?"
-            params.push(filtros.dia)
-        }
-
-        if (typeof filtros.valor_compra === 'number') {
-            sql += " AND vc.VALOR_COMPRA = ?"
-            params.push(filtros.valor_compra)
-        }
-
-        if (filtros.nome && filtros.nome.trim() !== '') {
-            sql += " AND c.NOME LIKE ?"
-            params.push(`%${filtros.nome.trim()}%`)
-        }
-
-        if (filtros.cidade && filtros.cidade.trim() !== '') {
-            sql += " AND c.CIDADE LIKE ?"
-            params.push(`%${filtros.cidade.trim()}%`)
-        }
-
-        if (filtros.bairro && filtros.bairro.trim() !== '') {
-            sql += " AND c.BAIRRO LIKE ?"
-            params.push(`%${filtros.bairro.trim()}%`)
-        }
-
-        const [rows] = await conexao.execute(sql, params)
-        return rows
-    } catch (err) {
-        throw new Error(`Erro ao buscar venda com filtros: ${err.message}`)
     }
-}
 
     async updateVenda(id, valorCompra) {
         try {

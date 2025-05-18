@@ -1,12 +1,12 @@
 import express from 'express'
 import produtoController from '../src/controllers/produtoController.js'
 
-const route = express.Router()
+const router = express.Router()
 
-route.post('/produto', produtoController.postProduto)
-route.get('/produto', produtoController.getProduto)
-route.put('/produto/:id', produtoController.alterProduto)
-route.delete('/produto/:id', produtoController.removeProduto)
-route.get('/produto/:nome', produtoController.getProdutoByName)
+router.post('/produto', produtoController.postProduto)
+router.get('/produto', produtoController.getProduto)
+router.put('/produto/:id', produtoController.alterProduto)
+router.delete('/produto/:id', produtoController.removeProduto)
+router.get('/produto/:nome', produtoController.getProdutoByName)
 
-export default route 
+export default router 

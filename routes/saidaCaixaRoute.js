@@ -1,13 +1,13 @@
 import express from 'express'
 import saidaCaixaController from '../src/controllers/saidaCaixaController.js'
 
-const route = express.Router()
+const router = express.Router()
 
-route.post('/saida',saidaCaixaController.postSaida)
-route.get('/saida',saidaCaixaController.getSaida)
-route.get('/saida/dia',saidaCaixaController.getSaidaDay)
-route.post('/saida/:filtro',saidaCaixaController.getSaidaFilter)
-route.delete('/saida/:id',saidaCaixaController.removeSaida)
-route.put('/saida/:id',saidaCaixaController.alterSaida)
+router.post('/saida',saidaCaixaController.postSaida)
+router.get('/saida',saidaCaixaController.getSaida)
+router.get('/saida/dia',saidaCaixaController.getSaidaDay)
+router.post('/saida/:filtro',saidaCaixaController.getSaidaFilter)
+router.delete('/saida/:id',saidaCaixaController.removeSaida)
+router.put('/saida/:id',saidaCaixaController.alterSaida)
 
-export default route
+export default router
