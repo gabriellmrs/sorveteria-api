@@ -7,6 +7,7 @@ import produtoRoute from './routes/produtoRoute.js'
 import vendaBalcaoRoute from './routes/vendaBalcaoRoute.js'
 import saidaCaixaRoute from './routes/saidaCaixaRoute.js'
 import vendaClienteRoute from './routes/vendaClienteRoute.js'
+import vendedorRoute from './routes/vendedorRoute.js'
 
 const app = express()
 
@@ -19,6 +20,6 @@ app.use(produtoRoute)
 app.use(vendaBalcaoRoute)
 app.use(saidaCaixaRoute)
 app.use(vendaClienteRoute)
-
+app.use(vendedorRoute)
 
 app.listen(5000)
