@@ -4,8 +4,8 @@ const postVendedor = async (req, res) => {
     try {
         const { nome, bairro, rua, numero_casa, telefone } = req.body;
 
-        if (!nome || !bairro || !rua || !numero_casa || !telefone) {
-            return res.status(400).send("CAMPO VAZIO");
+        if (!nome) {
+            return res.status(400).send("NOME VAZIO");
         }
 
         await vendedorModel.createVendedor(nome, bairro, rua, numero_casa, telefone);
