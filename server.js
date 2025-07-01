@@ -4,7 +4,7 @@ import 'dotenv/config';
 
 import authRoute from './routes/authRoute.js';
 import authMiddleware from './src/middleware/auth.middleware.js';
-
+import usuarioRoute from './routes/usuarioRoute.js';
 import clienteRoute from './routes/clienteRoute.js';
 import fornecedorRoute from './routes/fornecedorRoute.js';
 import produtoRoute from './routes/produtoRoute.js';
@@ -21,6 +21,7 @@ app.use(cors());
 
 // Rota pública
 app.use(authRoute);
+app.use(usuarioRoute);
 
 // Middleware: todas as rotas abaixo precisam de token
 app.use(authMiddleware);
