@@ -9,7 +9,7 @@ class saidaCaixaModel {
                 VALUES (?, ?, ?)`, [nome, descricao, valor])
             return response
         }
-        catch(err) {
+        catch (err) {
             throw new Error(`Erro ao cadastrar saida ${err.message}`)
         }
     }
@@ -21,7 +21,7 @@ class saidaCaixaModel {
                 SELECT * FROM SAIDA`)
             return response
         }
-        catch(err) {
+        catch (err) {
             throw new Error(`Erro ao consultar saida ${err.message} `)
         }
     }
@@ -34,7 +34,7 @@ class saidaCaixaModel {
                 SELECT * FROM SAIDA WHERE DATE(DATA_SAIDA) = CURDATE()`)
             return response
         }
-        catch(err) {
+        catch (err) {
             throw new Error(`Erro ao consultar saida ${err.message} `)
         }
     }
@@ -43,30 +43,30 @@ class saidaCaixaModel {
     async findByFilter(filtros) {
         try {
             const conexao = await connectToDataBase();
-    
+
             let sql = "SELECT * FROM SAIDA WHERE 1=1";
             const params = [];
-    
+
             if (typeof filtros.ano === 'number') {
                 sql += " AND YEAR(DATA_SAIDA) = ?";
                 params.push(filtros.ano);
             }
-    
+
             if (typeof filtros.mes === 'number') {
                 sql += " AND MONTH(DATA_SAIDA) = ?";
                 params.push(filtros.mes);
             }
-    
+
             if (typeof filtros.dia === 'number') {
                 sql += " AND DAY(DATA_SAIDA) = ?";
                 params.push(filtros.dia);
             }
-    
+
             if (typeof filtros.valor === 'number') {
                 sql += " AND VALOR = ?";
                 params.push(filtros.valor);
             }
-    
+
             if (filtros.descricao && filtros.descricao.trim() !== '') {
                 sql += " AND DESCRICAO = ?";
                 params.push(filtros.descricao.trim());
@@ -76,21 +76,21 @@ class saidaCaixaModel {
                 sql += " AND NOME = ?";
                 params.push(filtros.nome.trim());
             }
-    
+
             const [rows] = await conexao.execute(sql, params);
             return rows;
         } catch (err) {
             throw new Error(`Erro ao buscar saida: ${err.message}`);
         }
-    }   
-    
+    }
+
     async deleteSaida(id) {
         try {
             const conexao = await connectToDataBase()
             const response = await conexao.execute(`DELETE FROM SAIDA WHERE ID = ?`, [id])
             return response
         }
-        catch(err) {
+        catch (err) {
             throw new Error(`Erro ao remover saida ${err.message}`)
         }
     }
@@ -103,10 +103,28 @@ class saidaCaixaModel {
                 [nome, valor, descricao, id])
             return response
         }
-        catch(err) {
+        catch (err) {
             throw new Error(`Erro ao editar saida ${err.message}`)
         }
     }
+
+    // Total de saídas do mês atual
+    async getTotalSaidaMesAtual() {
+        try {
+            const conexao = await connectToDataBase();
+            const [rows] = await conexao.execute(`
+      SELECT 
+        SUM(VALOR) AS total_saida_mes
+      FROM SAIDA
+      WHERE MONTH(DATA_SAIDA) = MONTH(CURDATE())
+        AND YEAR(DATA_SAIDA) = YEAR(CURDATE())
+    `);
+            return rows[0];
+        } catch (err) {
+            throw new Error(`Erro ao calcular total de saída do mês: ${err.message}`);
+        }
+    }
+
 }
 
 export default new saidaCaixaModel

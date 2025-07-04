@@ -2,11 +2,11 @@ import vendaBalcaoModel from "../models/vendaBalcaoModel.js";
 
 const postVenda = (async (req, res) => {
     try {
-        const {valorVenda, formaDePagamento, valorPago} = req.body
+        const { valorVenda, formaDePagamento, valorPago } = req.body
         await vendaBalcaoModel.createVenda(valorVenda, formaDePagamento, valorPago)
         res.status(200).send('Venda registrada com sucesso!!')
     }
-    catch(err) {
+    catch (err) {
         res.status(500).json({ error: err.message })
     }
 })
@@ -17,8 +17,8 @@ const getVendaDia = (async (req, res) => {
         const row = await vendaBalcaoModel.find()
         res.status(200).json(row)
     }
-    catch(err) {
-        res.status(500).json({ error: err.message})
+    catch (err) {
+        res.status(500).json({ error: err.message })
     }
 })
 
@@ -47,31 +47,47 @@ const getVendaFilter = async (req, res) => {
 
 const alterVenda = (async (req, res) => {
     try {
-        const {valorVenda, formaDePagamento, valorPago} = req.body
-        const {id} = req.params
+        const { valorVenda, formaDePagamento, valorPago } = req.body
+        const { id } = req.params
         await vendaBalcaoModel.updateVenda(id, valorVenda, formaDePagamento, valorPago)
         res.status(200).send('Venda alterada com sucesso!')
     }
-    catch(err) {
+    catch (err) {
         res.status(500).json({ error: err.message })
     }
 })
 
 const removeVenda = (async (req, res) => {
     try {
-        const {id} = req.params
+        const { id } = req.params
         await vendaBalcaoModel.deleteVenda(id)
         res.status(200).send('Venda deletada com sucesso!')
     }
-    catch(err) {
-        res.status(500).json({erro: err.message})
+    catch (err) {
+        res.status(500).json({ erro: err.message })
     }
 })
+
+const getTotalMesBalcao = async (req, res) => {
+    try {
+        const resultado = await vendaBalcaoModel.getTotalMesBalcao();
+
+        if (!resultado || resultado.total_mes === null) {
+            return res.status(404).json({ mensagem: "Nenhuma venda de balcão registrada neste mês." });
+        }
+
+        res.status(200).json(resultado);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
 
 export default {
     postVenda,
     getVendaDia,
     alterVenda,
     removeVenda,
-    getVendaFilter
+    getVendaFilter,
+    getTotalMesBalcao
 }

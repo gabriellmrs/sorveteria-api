@@ -157,6 +157,46 @@ class vendaClienteModel {
             throw new Error(`Erro ao deletar venda: ${err.message}`)
         }
     }
+
+    // Total do mês atual para um cliente específico
+    async getTotalMesPorNomeCliente(nomeCliente) {
+        try {
+            const conexao = await connectToDataBase();
+            const [rows] = await conexao.execute(`
+      SELECT 
+        c.NOME AS cliente,
+        SUM(v.VALOR_COMPRA) AS total_mes
+      FROM venda_cliente v
+      JOIN cliente c ON v.CLIENTE_ID = c.ID
+      WHERE c.NOME = ?
+        AND MONTH(v.DATA_VENDA) = MONTH(CURDATE())
+        AND YEAR(v.DATA_VENDA) = YEAR(CURDATE())
+      GROUP BY c.NOME
+    `, [nomeCliente]);
+
+            return rows[0]; // pode ser undefined se não houver resultados
+        } catch (err) {
+            throw new Error(`Erro ao calcular total do mês para o cliente: ${err.message}`);
+        }
+    }
+
+    // Total geral do mês (todos os clientes)
+    async getTotalMesGeral() {
+        try {
+            const conexao = await connectToDataBase();
+            const [rows] = await conexao.execute(`
+      SELECT 
+        SUM(VALOR_COMPRA) AS total_geral_mes
+      FROM venda_cliente
+      WHERE MONTH(DATA_VENDA) = MONTH(CURDATE())
+        AND YEAR(DATA_VENDA) = YEAR(CURDATE())
+    `);
+            return rows[0];
+        } catch (err) {
+            throw new Error(`Erro ao calcular total geral do mês: ${err.message}`);
+        }
+    }
+
 }
 
 export default new vendaClienteModel()

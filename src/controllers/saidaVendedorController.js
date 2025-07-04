@@ -137,20 +137,50 @@ class SaidaVendedorController {
   }
 
   async verificarSaidaHoje(req, res) {
-  try {
-    const { nomeVendedor } = req.params;
+    try {
+      const { nomeVendedor } = req.params;
 
-    const saida = await SaidaVendedorModel.verificarSaidaHojePorNome(nomeVendedor);
+      const saida = await SaidaVendedorModel.verificarSaidaHojePorNome(nomeVendedor);
 
-    if (!saida) {
-      return res.status(404).json({ mensagem: "Nenhuma saída encontrada hoje para este vendedor." });
+      if (!saida) {
+        return res.status(404).json({ mensagem: "Nenhuma saída encontrada hoje para este vendedor." });
+      }
+
+      res.status(200).json(saida); // { idSaida: ... }
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
     }
-
-    res.status(200).json(saida); // { idSaida: ... }
-  } catch (err) {
-    res.status(500).json({ erro: err.message });
   }
-}
+
+  async calcularTotalMesPorVendedor(req, res) {
+    try {
+      const { nomeVendedor } = req.params;
+      const total = await SaidaVendedorModel.calcularTotalMesPorVendedor(nomeVendedor);
+
+      if (!total || total.total_mes === null) {
+        return res.status(404).json({ mensagem: "Nenhuma venda registrada este mês para este vendedor." });
+      }
+
+      res.status(200).json(total);
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
+    }
+  }
+
+  async calcularTotalMesTodos(req, res) {
+    try {
+      const total = await SaidaVendedorModel.calcularTotalMesTodosVendedores();
+
+      if (!total || total.total_geral_mes === null) {
+        return res.status(404).json({ mensagem: "Nenhuma venda registrada este mês." });
+      }
+
+      res.status(200).json(total);
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
+    }
+  }
+
 
 
 }

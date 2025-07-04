@@ -23,6 +23,13 @@ router.post('/carrinho/:nomeVendedor/produto-dia', SaidaVendedorController.inser
 
 router.get('/carrinho/:nomeVendedor/saida-hoje', SaidaVendedorController.verificarSaidaHoje);
 
+// Total do mês por vendedor
+router.get('/carrinho/total-mes/:nomeVendedor', SaidaVendedorController.calcularTotalMesPorVendedor);
+
+// Total do mês de todos os vendedores
+router.get('/carrinho/total-mes', SaidaVendedorController.calcularTotalMesTodos);
+
+
 
 // Consultar saída detalhada
 //router.get('/carrinho/:idSaida', SaidaVendedorController.consultarSaida);

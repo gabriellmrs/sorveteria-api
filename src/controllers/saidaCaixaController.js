@@ -2,8 +2,8 @@ import saidaCaixaModel from "../models/SaidaCaixaModel.js"
 
 const postSaida = (async (req, res) => {
     try {
-        const {nome, descricao, valor} = req.body
-        if(nome === null || valor === null) {
+        const { nome, descricao, valor } = req.body
+        if (nome === null || valor === null) {
             res.status(500).send('Preencha os campos')
         }
         else {
@@ -11,8 +11,8 @@ const postSaida = (async (req, res) => {
             res.status(200).send('Saida de Caixa Cadastrada')
         }
     }
-    catch(err) {
-        res.status(500).json({error: err.message})
+    catch (err) {
+        res.status(500).json({ error: err.message })
     }
 })
 
@@ -21,8 +21,8 @@ const getSaida = (async (req, res) => {
         const row = await saidaCaixaModel.findAll()
         res.status(200).json(row)
     }
-    catch(err) {
-        res.status(500).json({ error: err.message})
+    catch (err) {
+        res.status(500).json({ error: err.message })
     }
 })
 
@@ -31,8 +31,8 @@ const getSaidaDay = (async (req, res) => {
         const row = await saidaCaixaModel.find()
         res.status(200).json(row)
     }
-    catch(err) {
-        res.status(500).json({ error: err.message})
+    catch (err) {
+        res.status(500).json({ error: err.message })
     }
 })
 
@@ -62,25 +62,40 @@ const getSaidaFilter = async (req, res) => {
 
 const removeSaida = (async (req, res) => {
     try {
-        const {id} = req.params
+        const { id } = req.params
         await saidaCaixaModel.deleteSaida(id)
         res.status(200).send('Saida removida com sucesso!')
     }
-    catch(err) {
-        res.status(500).json({error: err.message})
+    catch (err) {
+        res.status(500).json({ error: err.message })
     }
 })
 
 const alterSaida = (async (req, res) => {
     try {
-        const {id, nome, valor, descricao} = req.body
+        const { id, nome, valor, descricao } = req.body
         await saidaCaixaModel.updateSaida(id, nome, valor, descricao)
         res.status(200).send('Saida editada com sucesso')
     }
-    catch(err) {
-        res.status(500).json({error: err.message})
+    catch (err) {
+        res.status(500).json({ error: err.message })
     }
 })
+
+const getTotalSaidaMes = async (req, res) => {
+    try {
+        const resultado = await saidaCaixaModel.getTotalSaidaMesAtual();
+
+        if (!resultado || resultado.total_saida_mes === null) {
+            return res.status(404).json({ mensagem: "Nenhuma saída registrada neste mês." });
+        }
+
+        res.status(200).json(resultado);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
 
 export default {
     postSaida,
@@ -88,5 +103,7 @@ export default {
     getSaidaFilter,
     removeSaida,
     alterSaida,
-    getSaidaDay
+    getSaidaDay,
+    getTotalSaidaMes
+
 }

@@ -23,9 +23,9 @@ export const enviarCodigo = async (req, res) => {
         });
 
         await transporter.sendMail({
-            from: `"Sistema" <${process.env.EMAIL_APP}>`,
+            from: `"FrostSys - Sistema" <${process.env.EMAIL_APP}>`,
             to: email,
-            subject: 'Código de Recuperação',
+            subject: 'Código de Recuperação de Senha',
             text: `Seu código é: ${codigo}`
         });
 

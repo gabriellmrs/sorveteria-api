@@ -64,13 +64,13 @@ const getVendaClienteFilter = async (req, res) => {
 
 const alterVenda = async (req, res) => {
     try {
-        const { valorCompra} = req.body
-        const {id} = req.params
+        const { valorCompra } = req.body
+        const { id } = req.params
         await vendaClienteModel.updateVenda(id, valorCompra)
         res.status(200).send('Venda alterada')
     }
-    catch(err) {
-        res.status(400).json({error: err.message})
+    catch (err) {
+        res.status(400).json({ error: err.message })
     }
 }
 
@@ -84,10 +84,44 @@ const deleteVenda = async (req, res) => {
     }
 }
 
+const getTotalMesPorNomeCliente = async (req, res) => {
+    try {
+        const { nome } = req.params;
+
+        if (!nome) {
+            return res.status(400).json({ error: "Nome do cliente é obrigatório." });
+        }
+
+        const resultado = await vendaClienteModel.getTotalMesPorNomeCliente(nome);
+
+        if (!resultado) {
+            return res.status(404).json({ mensagem: "Nenhuma venda encontrada este mês para este cliente." });
+        }
+
+        res.status(200).json(resultado);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+
+const getTotalMesGeral = async (req, res) => {
+    try {
+        const resultado = await vendaClienteModel.getTotalMesGeral();
+        res.status(200).json(resultado);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+
 export default {
     postVenda,
     deleteVenda,
     getVendaClienteFilter,
     alterVenda,
-    getVendasDoDia
+    getVendasDoDia,
+    getTotalMesPorNomeCliente,
+    getTotalMesGeral
 }
+

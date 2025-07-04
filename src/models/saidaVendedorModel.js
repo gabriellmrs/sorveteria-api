@@ -184,10 +184,10 @@ class SaidaVendedorModel {
   }
 
   // Verificar se já existe uma saída hoje para o vendedor
-async verificarSaidaHojePorNome(nomeVendedor) {
-  try {
-    const conexao = await connectToDataBase();
-    const [rows] = await conexao.execute(`
+  async verificarSaidaHojePorNome(nomeVendedor) {
+    try {
+      const conexao = await connectToDataBase();
+      const [rows] = await conexao.execute(`
       SELECT sv.id AS idSaida
       FROM saida_vendedor sv
       JOIN vendedor v ON sv.id_vendedor = v.id
@@ -196,15 +196,54 @@ async verificarSaidaHojePorNome(nomeVendedor) {
       LIMIT 1
     `, [nomeVendedor]);
 
-    if (rows.length === 0) {
-      return null; // Nenhuma saída hoje
-    }
+      if (rows.length === 0) {
+        return null; // Nenhuma saída hoje
+      }
 
-    return rows[0]; // Retorna { idSaida: ... }
-  } catch (err) {
-    throw new Error(`Erro ao verificar saída do dia: ${err.message}`);
+      return rows[0]; // Retorna { idSaida: ... }
+    } catch (err) {
+      throw new Error(`Erro ao verificar saída do dia: ${err.message}`);
+    }
   }
-}
+
+  // Calcular total do mês por nome do vendedor
+  async calcularTotalMesPorVendedor(nomeVendedor) {
+    try {
+      const conexao = await connectToDataBase();
+      const [rows] = await conexao.execute(`
+      SELECT 
+        SUM(spv.total_unidade) AS total_mes
+      FROM saida_produtos_vendedor spv
+      JOIN saida_vendedor sv ON spv.id_saida = sv.id
+      JOIN vendedor v ON sv.id_vendedor = v.id
+      WHERE v.nome = ?
+        AND MONTH(sv.data_saida) = MONTH(CURDATE())
+        AND YEAR(sv.data_saida) = YEAR(CURDATE())
+    `, [nomeVendedor]);
+
+      return rows[0];
+    } catch (err) {
+      throw new Error(`Erro ao calcular total do mês para vendedor: ${err.message}`);
+    }
+  }
+
+  // Calcular total do mês para todos os vendedores
+  async calcularTotalMesTodosVendedores() {
+    try {
+      const conexao = await connectToDataBase();
+      const [rows] = await conexao.execute(`
+      SELECT 
+        SUM(spv.total_unidade) AS total_geral_mes
+      FROM saida_produtos_vendedor spv
+      JOIN saida_vendedor sv ON spv.id_saida = sv.id
+      WHERE MONTH(sv.data_saida) = MONTH(CURDATE())
+        AND YEAR(sv.data_saida) = YEAR(CURDATE())
+    `);
+      return rows[0];
+    } catch (err) {
+      throw new Error(`Erro ao calcular total do mês de todos os vendedores: ${err.message}`);
+    }
+  }
 
 
 }
