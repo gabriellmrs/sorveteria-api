@@ -2,6 +2,7 @@ import usuarioModel from '../models/usuarioModel.js';
 import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 import 'dotenv/config';
+import jwt from 'jsonwebtoken';
 
 export const enviarCodigo = async (req, res) => {
     const { email } = req.body;
@@ -49,4 +50,24 @@ export const redefinirSenha = async (req, res) => {
     } catch (err) {
         res.status(500).json({ erro: err.message });
     }
+};
+
+export const obterUsuario = async (req, res) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ erro: 'Token não fornecido' });
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    const usuario = await usuarioModel.encontrarPorEmail(decoded.email);
+    if (!usuario) return res.status(404).json({ erro: 'Usuário não encontrado' });
+
+    res.json({ nome: usuario.NOME });
+  } catch (err) {
+    res.status(403).json({ erro: 'Token inválido ou expirado' });
+  }
 };
