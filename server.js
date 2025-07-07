@@ -21,7 +21,7 @@ const app = express();
 
 app.use(express.json());
 const allowedOrigins = [
-  'http://localhost:3000',
+  'http://localhost:5173',
   'https://frostsys.vercel.app'
 ];
 
