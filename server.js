@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
+const {PORT} = process.env
 
 import authRoute from './routes/authRoute.js';
 import authMiddleware from './src/middleware/auth.middleware.js';
@@ -39,4 +40,4 @@ app.use(vendedorRoute);
 app.use(saidaVendedorRoute);
 app.use(vendaBrutaLiquidaRoute);
 
-app.listen(5000);
+app.listen(PORT);
