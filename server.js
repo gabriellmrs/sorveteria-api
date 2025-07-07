@@ -20,10 +20,22 @@ import vendaBrutaLiquidaRoute from './routes/vendaBrutaLiquidaRoute.js';
 const app = express();
 
 app.use(express.json());
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://frostsys.vercel.app'
+];
+
 app.use(cors({
-  origin: 'https://frostsys.vercel.app',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
+
 
 
 // Rota pública
