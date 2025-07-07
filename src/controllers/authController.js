@@ -7,7 +7,7 @@ export async function login(req, res) {
 
   try {
     const conexao = await connectToDataBase();
-    const [usuarios] = await conexao.execute('SELECT * FROM USUARIO WHERE EMAIL = ?', [email]);
+    const [usuarios] = await conexao.execute('SELECT * FROM usuario WHERE EMAIL = ?', [email]);
 
     if (usuarios.length === 0) {
       return res.status(401).json({ erro: 'Usuário não encontrado' });
