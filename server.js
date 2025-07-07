@@ -20,7 +20,11 @@ import vendaBrutaLiquidaRoute from './routes/vendaBrutaLiquidaRoute.js';
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://frostsys.vercel.app',
+  credentials: true
+}));
+
 
 // Rota pública
 app.use(authRoute);
