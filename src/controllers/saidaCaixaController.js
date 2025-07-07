@@ -1,4 +1,4 @@
-import saidaCaixaModel from "../models/SaidaCaixaModel.js"
+import saidaCaixaModel from "../models/saidaCaixaModel.js"
 
 const postSaida = (async (req, res) => {
     try {
