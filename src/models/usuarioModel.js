@@ -3,14 +3,14 @@ import { connectToDataBase } from '../db/connection.js';
 class UsuarioModel {
   async encontrarPorEmail(email) {
     const conexao = await connectToDataBase();
-    const [rows] = await conexao.execute('SELECT * FROM USUARIO WHERE EMAIL = ?', [email]);
+    const [rows] = await conexao.execute('SELECT * FROM usuario WHERE EMAIL = ?', [email]);
     return rows[0];
   }
 
   async salvarCodigoRecuperacao(email, codigo, expiracao) {
     const conexao = await connectToDataBase();
     await conexao.execute(
-      'UPDATE USUARIO SET CODIGO_RECUPERACAO = ?, EXPIRACAO_CODIGO = ? WHERE EMAIL = ?',
+      'UPDATE usuario SET CODIGO_RECUPERACAO = ?, EXPIRACAO_CODIGO = ? WHERE EMAIL = ?',
       [codigo, expiracao, email]
     );
   }
@@ -18,7 +18,7 @@ class UsuarioModel {
   async verificarCodigo(email, codigo) {
     const conexao = await connectToDataBase();
     const [rows] = await conexao.execute(
-      'SELECT * FROM USUARIO WHERE EMAIL = ? AND CODIGO_RECUPERACAO = ? AND EXPIRACAO_CODIGO > NOW()',
+      'SELECT * FROM usuario WHERE EMAIL = ? AND CODIGO_RECUPERACAO = ? AND EXPIRACAO_CODIGO > NOW()',
       [email, codigo]
     );
     return rows.length > 0;
@@ -27,7 +27,7 @@ class UsuarioModel {
   async alterarSenha(email, novaSenhaHash) {
     const conexao = await connectToDataBase();
     await conexao.execute(
-      'UPDATE USUARIO SET SENHA = ?, CODIGO_RECUPERACAO = NULL, EXPIRACAO_CODIGO = NULL WHERE EMAIL = ?',
+      'UPDATE usuario SET SENHA = ?, CODIGO_RECUPERACAO = NULL, EXPIRACAO_CODIGO = NULL WHERE EMAIL = ?',
       [novaSenhaHash, email]
     );
   }

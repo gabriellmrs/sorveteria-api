@@ -5,7 +5,7 @@ class VendedorModel {
         try {
             const conexao = await connectToDataBase()
             const [response] = await conexao.execute(`
-                INSERT INTO VENDEDOR (NOME, BAIRRO, RUA, NUMERO_CASA, TELEFONE)
+                INSERT INTO vendedor (NOME, BAIRRO, RUA, NUMERO_CASA, TELEFONE)
                 VALUES (?, ?, ?, ?, ?)
             `, [nome, bairro, rua, numero_casa, telefone])
             return response
@@ -18,7 +18,7 @@ class VendedorModel {
         try {
             const conexao = await connectToDataBase()
             const [response] = await conexao.execute(`
-                SELECT * FROM VENDEDOR
+                SELECT * FROM vendedor
                 ORDER BY NOME ASC
             `)
             return response
@@ -31,7 +31,7 @@ class VendedorModel {
         try {
             const conexao = await connectToDataBase()
             const [response] = await conexao.execute(`
-                SELECT * FROM VENDEDOR WHERE NOME LIKE ?
+                SELECT * FROM vendedor WHERE NOME LIKE ?
             `, [nome])
             return response[0]
         } catch (err) {
@@ -43,7 +43,7 @@ class VendedorModel {
         try {
             const conexao = await connectToDataBase()
             const [response] = await conexao.execute(`
-                UPDATE VENDEDOR 
+                UPDATE vendedor
                 SET NOME = ?, BAIRRO = ?, RUA = ?, NUMERO_CASA = ?, TELEFONE = ?
                 WHERE ID = ?
             `, [nome, bairro, rua, numero_casa, telefone, id])
@@ -57,7 +57,7 @@ class VendedorModel {
         try {
             const conexao = await connectToDataBase()
             const [response] = await conexao.execute(`
-                DELETE FROM VENDEDOR WHERE ID = ?
+                DELETE FROM vendedor WHERE ID = ?
             `, [id])
             return response
         } catch (err) {

@@ -5,7 +5,7 @@ class clienteModel {
     async findAll() {
         try {
             const conexao = await connectToDataBase()
-            const [response] = await conexao.execute('SELECT * FROM CLIENTE')
+            const [response] = await conexao.execute('SELECT * FROM cliente')
             return response
         }
         catch (err) {
@@ -16,7 +16,7 @@ class clienteModel {
     async findByID(nome) {
         try {
             const conexao = await connectToDataBase()
-            const [rows] = await conexao.execute('SELECT * FROM CLIENTE WHERE NOME LIKE ?', [`%${nome}%`])
+            const [rows] = await conexao.execute('SELECT * FROM cliente WHERE NOME LIKE ?', [`%${nome}%`])
             return rows
         }
         catch (err) {
@@ -27,7 +27,7 @@ class clienteModel {
     async findByCity(cidade) {
         try {
           const conexao = await connectToDataBase();
-          const [rows] = await conexao.execute('SELECT * FROM CLIENTE WHERE CIDADE LIKE ?', [`%${cidade}%`]);
+          const [rows] = await conexao.execute('SELECT * FROM cliente WHERE CIDADE LIKE ?', [`%${cidade}%`]);
           return rows;
         } catch (err) {
           throw new Error(`Erro ao buscar clientes por cidade: ${err.message}`);
@@ -37,7 +37,7 @@ class clienteModel {
       async findByBairro(bairro) {
         try {
           const conexao = await connectToDataBase();
-          const [rows] = await conexao.execute('SELECT * FROM CLIENTE WHERE BAIRRO LIKE ?', [`%${bairro}%`]);
+          const [rows] = await conexao.execute('SELECT * FROM cliente WHERE BAIRRO LIKE ?', [`%${bairro}%`]);
           return rows;
         } catch (err) {
           throw new Error(`Erro ao buscar clientes por bairro: ${err.message}`);
@@ -48,7 +48,7 @@ class clienteModel {
         try {
             const conexao = await connectToDataBase()
             const response = await conexao.execute(`
-                INSERT INTO CLIENTE (NOME, ESTADO, CIDADE, BAIRRO, ENDERECO, TELEFONE, CNPJ_CPF)
+                INSERT INTO cliente (NOME, ESTADO, CIDADE, BAIRRO, ENDERECO, TELEFONE, CNPJ_CPF)
                 VALUES (?, ?, ?, ?, ?, ?, ?)`,
                 [
                     nome,
@@ -70,7 +70,7 @@ class clienteModel {
         try {
             const conexao = await connectToDataBase()
             const response = await conexao.execute(`
-                UPDATE CLIENTE
+                UPDATE cliente
                 SET NOME = ?, ESTADO = ?, CIDADE = ?, BAIRRO = ?, ENDERECO = ?, TELEFONE = ?, CNPJ_CPF = ?
                 WHERE ID = ?`,
                 [
@@ -93,7 +93,7 @@ class clienteModel {
     async deleteCliente(id) {
         try {
             const conexao = await connectToDataBase()
-            const response = await conexao.execute('DELETE FROM CLIENTE WHERE ID = ?', [id])
+            const response = await conexao.execute('DELETE FROM cliente WHERE ID = ?', [id])
             return response
         }
         catch (err) {

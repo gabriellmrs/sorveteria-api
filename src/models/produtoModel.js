@@ -6,7 +6,7 @@ class produtoModel {
         try {
             const conexao = await connectToDataBase()
             const response = await conexao.execute(`
-            INSERT INTO PRODUTO (NOME, VALOR) VALUES (?,?)`, [nome, valor])
+            INSERT INTO produto (NOME, VALOR) VALUES (?,?)`, [nome, valor])
             return response
         }
         catch(err) {
@@ -17,7 +17,7 @@ class produtoModel {
     async findAll() {
         try {
             const conexao = await connectToDataBase()
-            const [response] = await conexao.execute(`SELECT * FROM PRODUTO`)
+            const [response] = await conexao.execute(`SELECT * FROM produto`)
             return response
         }
         catch(err) {
@@ -29,7 +29,7 @@ class produtoModel {
         try {
             const conexao = await connectToDataBase()
             const [response] = await conexao.execute(`
-                SELECT * FROM PRODUTO WHERE NOME LIKE ?`,
+                SELECT * FROM produto WHERE NOME LIKE ?`,
                 [`%${nome}%`])
             return response
         }
@@ -42,7 +42,7 @@ class produtoModel {
         try {
             const conexao = await connectToDataBase()
             const response = await conexao.execute(`
-                UPDATE PRODUTO SET NOME = ?, VALOR = ? WHERE ID = ?`,
+                UPDATE produto SET NOME = ?, VALOR = ? WHERE ID = ?`,
                 [nome, valor, id])
             return response
         }
@@ -55,7 +55,7 @@ class produtoModel {
         try {
             const conexao = await connectToDataBase()
             const response = await conexao.execute(`
-                DELETE FROM PRODUTO WHERE ID = ?`,
+                DELETE FROM produto WHERE ID = ?`,
                 [id])
             return response
         }

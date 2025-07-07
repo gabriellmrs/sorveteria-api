@@ -6,7 +6,7 @@ class vendaBalcaoModel {
         try {
             const conexao = await connectToDataBase()
             const response = await conexao.execute(`
-                INSERT INTO VENDA_BALCAO (VALOR_VENDA, FORMA_PAGAMENTO, VALOR_PAGO) VALUES (?,?,?)`,
+                INSERT INTO venda_balcao (VALOR_VENDA, FORMA_PAGAMENTO, VALOR_PAGO) VALUES (?,?,?)`,
                 [valorVenda, formaDePagamento, valorPago])
             return response
         }
@@ -19,7 +19,7 @@ class vendaBalcaoModel {
         try {
             const conexao = await connectToDataBase()
             const [rows] = await conexao.execute(`
-                SELECT * FROM VENDA_BALCAO WHERE DATE(DATA_VENDA) = CURDATE()`)
+                SELECT * FROM venda_balcao WHERE DATE(DATA_VENDA) = CURDATE()`)
             return rows
         }
         catch (err) {
@@ -32,7 +32,7 @@ class vendaBalcaoModel {
         try {
             const conexao = await connectToDataBase();
 
-            let sql = "SELECT * FROM VENDA_BALCAO WHERE 1=1";
+            let sql = "SELECT * FROM venda_balcao WHERE 1=1";
             const params = [];
 
             if (typeof filtros.ano === 'number') {
@@ -73,7 +73,7 @@ class vendaBalcaoModel {
         try {
             const conexao = await connectToDataBase()
             const response = await conexao.execute(`
-                UPDATE VENDA_BALCAO SET VALOR_VENDA = ?, FORMA_PAGAMENTO = ?, VALOR_PAGO = ? WHERE ID = ?`,
+                UPDATE venda_balcao SET VALOR_VENDA = ?, FORMA_PAGAMENTO = ?, VALOR_PAGO = ? WHERE ID = ?`,
                 [valorVenda, formaDePagamento, valorPago, id])
             return response
         }
@@ -86,7 +86,7 @@ class vendaBalcaoModel {
         try {
             const conexao = await connectToDataBase()
             const response = await conexao.execute(`
-                DELETE FROM VENDA_BALCAO WHERE ID = ?`, [id])
+                DELETE FROM venda_balcao WHERE ID = ?`, [id])
             return response
         }
         catch (err) {
@@ -101,7 +101,7 @@ class vendaBalcaoModel {
             const [rows] = await conexao.execute(`
       SELECT 
         SUM(VALOR_VENDA) AS total_mes
-      FROM VENDA_BALCAO
+      FROM venda_balcao
       WHERE MONTH(DATA_VENDA) = MONTH(CURDATE())
         AND YEAR(DATA_VENDA) = YEAR(CURDATE())
     `);

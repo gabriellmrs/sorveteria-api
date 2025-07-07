@@ -5,7 +5,7 @@ class saidaCaixaModel {
         try {
             const conexao = await connectToDataBase()
             const response = await conexao.execute(`
-                INSERT INTO SAIDA (NOME, DESCRICAO, VALOR)
+                INSERT INTO saida (NOME, DESCRICAO, VALOR)
                 VALUES (?, ?, ?)`, [nome, descricao, valor])
             return response
         }
@@ -18,7 +18,7 @@ class saidaCaixaModel {
         try {
             const conexao = await connectToDataBase()
             const [response] = await conexao.execute(`
-                SELECT * FROM SAIDA`)
+                SELECT * FROM saida`)
             return response
         }
         catch (err) {
@@ -31,7 +31,7 @@ class saidaCaixaModel {
         try {
             const conexao = await connectToDataBase()
             const [response] = await conexao.execute(`
-                SELECT * FROM SAIDA WHERE DATE(DATA_SAIDA) = CURDATE()`)
+                SELECT * FROM saida  WHERE DATE(DATA_SAIDA) = CURDATE()`)
             return response
         }
         catch (err) {
@@ -44,7 +44,7 @@ class saidaCaixaModel {
         try {
             const conexao = await connectToDataBase();
 
-            let sql = "SELECT * FROM SAIDA WHERE 1=1";
+            let sql = "SELECT * FROM saida WHERE 1=1";
             const params = [];
 
             if (typeof filtros.ano === 'number') {
@@ -87,7 +87,7 @@ class saidaCaixaModel {
     async deleteSaida(id) {
         try {
             const conexao = await connectToDataBase()
-            const response = await conexao.execute(`DELETE FROM SAIDA WHERE ID = ?`, [id])
+            const response = await conexao.execute(`DELETE FROM saida WHERE ID = ?`, [id])
             return response
         }
         catch (err) {
@@ -99,7 +99,7 @@ class saidaCaixaModel {
         try {
             const conexao = await connectToDataBase()
             const response = await conexao.execute(`
-                UPDATE SAIDA SET NOME = ?, VALOR = ?, DESCRICAO = ? WHERE ID = ?`,
+                UPDATE saida SET NOME = ?, VALOR = ?, DESCRICAO = ? WHERE ID = ?`,
                 [nome, valor, descricao, id])
             return response
         }
@@ -115,7 +115,7 @@ class saidaCaixaModel {
             const [rows] = await conexao.execute(`
       SELECT 
         SUM(VALOR) AS total_saida_mes
-      FROM SAIDA
+      FROM saida
       WHERE MONTH(DATA_SAIDA) = MONTH(CURDATE())
         AND YEAR(DATA_SAIDA) = YEAR(CURDATE())
     `);

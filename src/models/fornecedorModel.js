@@ -6,7 +6,7 @@ class fornecedorModel {
         try {
             const conexao = await connectToDataBase()
             const response = conexao.execute(`
-                INSERT INTO FORNECEDOR (NOME, TELEFONE) VALUES (?,?)`, [nome, telefone || null])
+                INSERT INTO fornecedor (NOME, TELEFONE) VALUES (?,?)`, [nome, telefone || null])
             return response
         }
         catch(err) {
@@ -17,7 +17,7 @@ class fornecedorModel {
     async findAll() {
         try {
             const conexao = await connectToDataBase()
-            const [response] = await conexao.execute(`SELECT * FROM FORNECEDOR`)
+            const [response] = await conexao.execute(`SELECT * FROM fornecedor`)
             return response
         }
         catch(err) {
@@ -28,7 +28,7 @@ class fornecedorModel {
     async findByName(nome) {
         try {
             const conexao = await connectToDataBase()
-            const [rows] = await conexao.execute('SELECT * FROM FORNECEDOR WHERE NOME LIKE ?', [`%${nome}%`])
+            const [rows] = await conexao.execute('SELECT * FROM fornecedor WHERE NOME LIKE ?', [`%${nome}%`])
             return rows
         }
         catch (err) {
@@ -40,7 +40,7 @@ class fornecedorModel {
         try {
             const conexao = await connectToDataBase()
             const response = await conexao.execute(`
-                UPDATE FORNECEDOR SET NOME = ?, TELEFONE = ? WHERE ID = ?`,
+                UPDATE fornecedor SET NOME = ?, TELEFONE = ? WHERE ID = ?`,
             [nome, telefone || null, id])
             return response
         }
@@ -52,7 +52,7 @@ class fornecedorModel {
     async deleteFornecedor(id) {
         try {
             const conexo = await connectToDataBase()
-            const response = await conexo.execute(`DELETE FROM FORNECEDOR WHERE ID = ?`, [id])
+            const response = await conexo.execute(`DELETE FROM fornecedor WHERE ID = ?`, [id])
             return response
         }
         catch(err) {
