@@ -63,6 +63,22 @@ Este repositório representa o backend da aplicação **FrostSys**, um sistema p
 
 ## 📁 Estrutura do Projeto
 ```bash
+sorveteria-back/
+├── node_modules/
+├── routes/
+│
+├── src/
+│   ├── controllers/
+│   ├── db/
+│   ├── middleware/
+│   └── models/
+├── .env
+├── .gitignore
+├── criarUsuario.js
+├── package.json
+├── package-lock.json
+└── server.js
+
 
 ```
 ## 🔧 Variáveis de Ambiente (.env)
