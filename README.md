@@ -10,7 +10,7 @@
 ![Render](https://img.shields.io/badge/render-000000?style=for-the-badge&logo=render&logoColor=white)
 ![Railway](https://img.shields.io/badge/railway-0B0D0E?style=for-the-badge&logo=railway&logoColor=white)
 
-<p align="center">
+<p >
   API RESTful para gerenciamento de sorveteria com autenticação JWT, CRUD completo, controle de vendas, caixa e mais.
 </p>
 
@@ -68,16 +68,16 @@ Este repositório representa o backend da aplicação **FrostSys**, um sistema p
 ## 🔧 Variáveis de Ambiente (.env)
 
 ```env
-PORT=5000
-DB_USER=root
-DB_PASSWORD=sua_senha
-DB_SERVER=tramway.proxy.rlwy.net
-DB_DATABASE=railway
+PORT=SUA_PORT
+DB_USER=SEU_USER
+DB_PASSWORD=SUA_SENHA
+DB_SERVER=SEU_SERVER
+DB_DATABASE=SEU_DATABASE
 SECRET_KEY=sua_chave_jwt
 EMAIL_USER=seu_email@gmail.com
 EMAIL_PASS=sua_senha_email
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
+EMAIL_HOST=SEU_EMAIL_HOST
+EMAIL_PORT=SEU_EMAIL_PORT
 ```
 ---
 
