@@ -18,7 +18,7 @@
 
 ## 📦 Sobre o Projeto
 
-Este repositório representa o backend da aplicação **FrostSys**, um sistema para sorveterias. A API foi construída em Node.js com banco de dados em nuvem (Railway) e está hospedada na plataforma Render.
+Este repositório representa o backend da aplicação **FrostSys**, um sistema para sorveterias. A API foi construída em uma estrutura MVC, em Node.js com banco de dados em nuvem (Railway) e está hospedada na plataforma Render.
 
 ---
 
@@ -34,7 +34,7 @@ Este repositório representa o backend da aplicação **FrostSys**, um sistema p
   - Vendas (balcão e clientes)
   - Saída de caixa
   - Saída por vendedor
-- ✅ Dashboard com totais do mês (vendas brutas, líquidas, saídas)
+- ✅ Gerenciamento com filtros dos totais de (vendas brutas, líquidas, saídas)
 - ✅ Middleware de autenticação para proteger rotas privadas
 
 ---
@@ -104,6 +104,17 @@ EMAIL_PORT=SEU_EMAIL_PORT
 | GET    | `/usuario`                 | Retorna nome do usuário      |
 | POST   | `/usuario/esqueci-senha`   | Envia código por e-mail      |
 | POST   | `/usuario/redefinir-senha` | Redefine senha usando código |
+
+---
+
+## 🔧 Melhorias Futuras
+A aplicação ainda pode evoluir bastante. Algumas funcionalidades previstas para versões futuras incluem:
+- 🧾 **Impressão de notas:** Geração e impressão de comprovantes de venda e notas simplificadas.
+- 📊 **Dashboards interativos:** Gráficos e indicadores visuais para facilitar o acompanhamento do desempenho da sorveteria.
+- 📦 **Gestão de estoque:** Controle completo de entrada, saída e alertas de baixo estoque.
+- 🍦 **Controle de produção:** Registro das receitas, insumos e previsões de produção diária ou semanal.
+- 📈 **Relatórios detalhados:** Geração de relatórios personalizados com filtros por período, produto, cliente e vendedor.
+- ⚙️ **Módulo de configurações:** Tela de configurações para personalizar o sistema (dados da empresa, preferências de visualização, permissões etc).
 
 ## 📩 Contato
 
