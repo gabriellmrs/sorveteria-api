@@ -23,14 +23,14 @@ class VendaBrutaLiquidaModel {
       // Total balcão
       const [balcaoRows] = await conexao.execute(`
         SELECT SUM(VALOR_VENDA) AS total_balcao
-        FROM VENDA_BALCAO
+        FROM venda_balcao
         WHERE MONTH(DATA_VENDA) = ? AND YEAR(DATA_VENDA) = ?
       `, [mes, ano]);
 
       // Total saída de caixa
       const [saidaRows] = await conexao.execute(`
         SELECT SUM(VALOR) AS total_saida
-        FROM SAIDA
+        FROM saida
         WHERE MONTH(DATA_SAIDA) = ? AND YEAR(DATA_SAIDA) = ?
       `, [mes, ano]);
 
