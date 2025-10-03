@@ -181,6 +181,33 @@ class SaidaVendedorController {
     }
   }
 
+    async atualizarQuantidadeProduto(req, res) {
+    try {
+      const { idSaida } = req.params;
+      const { produto, novaQuantidade } = req.body;
+
+      const resultado = await SaidaVendedorModel.atualizarQuantidadeProduto(idSaida, produto, novaQuantidade);
+
+      res.status(200).json(resultado);
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
+    }
+  }
+
+  async removerProduto(req, res) {
+    try {
+      const { idSaida } = req.params;
+      const { produto } = req.body;
+
+      const resultado = await SaidaVendedorModel.removerProduto(idSaida, produto);
+
+      res.status(200).json(resultado);
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
+    }
+  }
+
+
 
 
 }

@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise'
-const {DB_USER, DB_PASSWORD, DB_SERVER, DB_DATABASE, PORT} = process.env
+const {DB_USER, DB_PASSWORD, DB_SERVER, DB_DATABASE, DB_PORT} = process.env
 
 export async function connectToDataBase() {
     try {
@@ -8,7 +8,7 @@ export async function connectToDataBase() {
         password:DB_PASSWORD,
         database:DB_DATABASE,
         user:DB_USER,
-        port: PORT
+        port: DB_PORT
     })
     console.log('CONEXÂO FEITA COM SUCESSO!!!')
     return conexao

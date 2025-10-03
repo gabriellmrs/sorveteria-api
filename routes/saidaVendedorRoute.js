@@ -1,5 +1,6 @@
 import express from 'express';
 import SaidaVendedorController from '../src/controllers/saidaVendedorController.js';
+import authMiddleware from '../src/middleware/auth.middleware.js'; // ✅ adicione isso
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.get('/carrinho/hoje/:nomeVendedor', SaidaVendedorController.consultarProd
 // Calcular total a pagar hoje por nome do vendedor
 router.get('/carrinho/total-hoje/:nomeVendedor', SaidaVendedorController.calcularTotalHojePorVendedor);
 
-//Inserir produto com nome do vendedor e data atual
+// Inserir produto com nome do vendedor e data atual
 router.post('/carrinho/:nomeVendedor/produto-dia', SaidaVendedorController.inserirProdutoPorNome);
 
 router.get('/carrinho/:nomeVendedor/saida-hoje', SaidaVendedorController.verificarSaidaHoje);
@@ -29,15 +30,11 @@ router.get('/carrinho/total-mes/:nomeVendedor', SaidaVendedorController.calcular
 // Total do mês de todos os vendedores
 router.get('/carrinho/total-mes', SaidaVendedorController.calcularTotalMesTodos);
 
-
-
-// Consultar saída detalhada
-//router.get('/carrinho/:idSaida', SaidaVendedorController.consultarSaida);
-
-// Calcular total a pagar
-//router.get('/carrinho/:idSaida/total', SaidaVendedorController.calcularTotal);
-
 // Deletar saída
 router.delete('/carrinho/:idSaida', SaidaVendedorController.deletarSaida);
+
+// 🔐 Rotas protegidas com token
+router.put("/carrinho/:idSaida/produto/quantidade", authMiddleware, SaidaVendedorController.atualizarQuantidadeProduto);
+router.delete("/carrinho/:idSaida/produto", authMiddleware, SaidaVendedorController.removerProduto);
 
 export default router;

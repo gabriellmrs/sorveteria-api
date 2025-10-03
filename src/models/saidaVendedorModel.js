@@ -245,6 +245,38 @@ class SaidaVendedorModel {
     }
   }
 
+    // Atualizar quantidade de saída de um produto
+  async atualizarQuantidadeProduto(idSaida, produto, novaQuantidade) {
+    try {
+      const conexao = await connectToDataBase();
+      const [result] = await conexao.execute(`
+        UPDATE saida_produtos_vendedor
+        SET quantidade_saida = ?
+        WHERE id_saida = ? AND produto = ?
+      `, [novaQuantidade, idSaida, produto]);
+
+      return { mensagem: 'Quantidade atualizada com sucesso', linhasAfetadas: result.affectedRows };
+    } catch (err) {
+      throw new Error(`Erro ao atualizar quantidade do produto: ${err.message}`);
+    }
+  }
+
+  // Remover um produto da saída
+  async removerProduto(idSaida, produto) {
+    try {
+      const conexao = await connectToDataBase();
+      const [result] = await conexao.execute(`
+        DELETE FROM saida_produtos_vendedor
+        WHERE id_saida = ? AND produto = ?
+      `, [idSaida, produto]);
+
+      return { mensagem: 'Produto removido com sucesso', linhasAfetadas: result.affectedRows };
+    } catch (err) {
+      throw new Error(`Erro ao remover produto: ${err.message}`);
+    }
+  }
+
+
 
 }
 
