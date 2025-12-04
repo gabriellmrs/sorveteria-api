@@ -4,7 +4,7 @@ class produtoModel {
 
     async createProduto(nome, valor) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const response = await conexao.execute(`
             INSERT INTO produto (NOME, VALOR) VALUES (?,?)`, [nome, valor])
             return response
@@ -16,7 +16,7 @@ class produtoModel {
 
     async findAll() {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const [response] = await conexao.execute(`SELECT * FROM produto`)
             return response
         }
@@ -27,7 +27,7 @@ class produtoModel {
 
     async findByName(nome) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const [response] = await conexao.execute(`
                 SELECT * FROM produto WHERE NOME LIKE ?`,
                 [`%${nome}%`])
@@ -40,7 +40,7 @@ class produtoModel {
 
     async updateProduto(id, nome, valor) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const response = await conexao.execute(`
                 UPDATE produto SET NOME = ?, VALOR = ? WHERE ID = ?`,
                 [nome, valor, id])
@@ -53,7 +53,7 @@ class produtoModel {
 
     async deleteProduto(id) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const response = await conexao.execute(`
                 DELETE FROM produto WHERE ID = ?`,
                 [id])
@@ -65,4 +65,4 @@ class produtoModel {
     }
 }
 
-export default new produtoModel
+export default new produtoModel()

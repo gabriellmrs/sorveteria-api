@@ -3,7 +3,7 @@ import { connectToDataBase } from "../db/connection.js";
 class saidaCaixaModel {
     async createSaida(nome, descricao, valor) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const response = await conexao.execute(`
                 INSERT INTO saida (NOME, DESCRICAO, VALOR)
                 VALUES (?, ?, ?)`, [nome, descricao, valor])
@@ -16,7 +16,7 @@ class saidaCaixaModel {
 
     async findAll() {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const [response] = await conexao.execute(`
                 SELECT * FROM saida`)
             return response
@@ -29,7 +29,7 @@ class saidaCaixaModel {
     //BUSCA SAIDAS DO DIA
     async find() {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const [response] = await conexao.execute(`
                 SELECT * FROM saida  WHERE DATE(DATA_SAIDA) = CURDATE()`)
             return response
@@ -42,7 +42,7 @@ class saidaCaixaModel {
     //BUSCA VENDA COM FILTRO
     async findByFilter(filtros) {
         try {
-            const conexao = await connectToDataBase();
+            const conexao = connectToDataBase();
 
             let sql = "SELECT * FROM saida WHERE 1=1";
             const params = [];
@@ -86,7 +86,7 @@ class saidaCaixaModel {
 
     async deleteSaida(id) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const response = await conexao.execute(`DELETE FROM saida WHERE ID = ?`, [id])
             return response
         }
@@ -97,7 +97,7 @@ class saidaCaixaModel {
 
     async updateSaida(id, nome, valor, descricao) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const response = await conexao.execute(`
                 UPDATE saida SET NOME = ?, VALOR = ?, DESCRICAO = ? WHERE ID = ?`,
                 [nome, valor, descricao, id])
@@ -111,7 +111,7 @@ class saidaCaixaModel {
     // Total de saídas do mês atual
     async getTotalSaidaMesAtual() {
         try {
-            const conexao = await connectToDataBase();
+            const conexao = connectToDataBase();
             const [rows] = await conexao.execute(`
       SELECT 
         SUM(VALOR) AS total_saida_mes
@@ -127,4 +127,4 @@ class saidaCaixaModel {
 
 }
 
-export default new saidaCaixaModel
+export default new saidaCaixaModel()

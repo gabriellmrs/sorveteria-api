@@ -8,6 +8,7 @@ export default function authMiddleware(req, res, next) {
     return res.status(401).json({ erro: 'Token não fornecido' });
   }
 
+  //Separa o prefix beaer do token
   const [prefix, token] = authHeader.split(' ');
 
   if (prefix !== 'Bearer' || !token) {
@@ -20,7 +21,7 @@ export default function authMiddleware(req, res, next) {
     req.user = {
       id: decoded.id,
       email: decoded.email,
-      role: decoded.role || 'usuario', 
+      role: decoded.role  
     };
 
     next(); 

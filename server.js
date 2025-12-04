@@ -20,6 +20,7 @@ import vendaBrutaLiquidaRoute from './routes/vendaBrutaLiquidaRoute.js';
 const app = express();
 
 app.use(express.json());
+
 const allowedOrigins = [
   'http://localhost:5173',
   'https://frostsys.vercel.app'
@@ -50,4 +51,6 @@ app.use(vendedorRoute);
 app.use(saidaVendedorRoute);
 app.use(vendaBrutaLiquidaRoute);
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log("Servidor rodando")
+});

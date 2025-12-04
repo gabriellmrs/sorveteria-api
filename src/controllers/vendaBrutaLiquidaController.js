@@ -11,6 +11,8 @@ const getTotaisDoMes = async (req, res) => {
       return res.status(400).json({ error: "Os campos 'mes' e 'ano' são obrigatórios e devem ser números." });
     }
 
+    if(req.user.role !== 'Admin') return res.status(403).json({erro: 'Acesso Negado'})
+    
     const resultado = await VendaBrutaLiquidaModel.calcularTotaisMes(mesInt, anoInt);
     res.status(200).json(resultado);
   } catch (err) {

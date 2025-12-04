@@ -4,7 +4,7 @@ class vendaBalcaoModel {
 
     async createVenda(valorVenda, formaDePagamento, valorPago) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const response = await conexao.execute(`
                 INSERT INTO venda_balcao (VALOR_VENDA, FORMA_PAGAMENTO, VALOR_PAGO) VALUES (?,?,?)`,
                 [valorVenda, formaDePagamento, valorPago])
@@ -17,7 +17,7 @@ class vendaBalcaoModel {
     //BUSCA POR VENDA DO DIA
     async find() {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const [rows] = await conexao.execute(`
                 SELECT * FROM venda_balcao WHERE DATE(DATA_VENDA) = CURDATE()`)
             return rows
@@ -30,7 +30,7 @@ class vendaBalcaoModel {
     //BUSCA VENDA COM FILTRO
     async findByFilter(filtros) {
         try {
-            const conexao = await connectToDataBase();
+            const conexao = connectToDataBase();
 
             let sql = "SELECT * FROM venda_balcao WHERE 1=1";
             const params = [];
@@ -71,7 +71,7 @@ class vendaBalcaoModel {
 
     async updateVenda(id, valorVenda, formaDePagamento, valorPago) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const response = await conexao.execute(`
                 UPDATE venda_balcao SET VALOR_VENDA = ?, FORMA_PAGAMENTO = ?, VALOR_PAGO = ? WHERE ID = ?`,
                 [valorVenda, formaDePagamento, valorPago, id])
@@ -84,7 +84,7 @@ class vendaBalcaoModel {
 
     async deleteVenda(id) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const response = await conexao.execute(`
                 DELETE FROM venda_balcao WHERE ID = ?`, [id])
             return response
@@ -97,7 +97,7 @@ class vendaBalcaoModel {
     // Total de vendas de balcão no mês atual
     async getTotalMesBalcao() {
         try {
-            const conexao = await connectToDataBase();
+            const conexao = connectToDataBase();
             const [rows] = await conexao.execute(`
       SELECT 
         SUM(VALOR_VENDA) AS total_mes

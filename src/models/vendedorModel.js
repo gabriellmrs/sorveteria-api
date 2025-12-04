@@ -3,7 +3,7 @@ import { connectToDataBase } from "../db/connection.js"
 class VendedorModel {
     async createVendedor(nome, bairro, rua, numero_casa, telefone) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const [response] = await conexao.execute(`
                 INSERT INTO vendedor (NOME, BAIRRO, RUA, NUMERO_CASA, TELEFONE)
                 VALUES (?, ?, ?, ?, ?)
@@ -16,7 +16,7 @@ class VendedorModel {
 
     async findAll() {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const [response] = await conexao.execute(`
                 SELECT * FROM vendedor
                 ORDER BY NOME ASC
@@ -29,7 +29,7 @@ class VendedorModel {
 
     async findById(nome) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const [response] = await conexao.execute(`
                 SELECT * FROM vendedor WHERE NOME LIKE ?
             `, [nome])
@@ -41,7 +41,7 @@ class VendedorModel {
 
     async updateVendedor(id, nome, bairro, rua, numero_casa, telefone) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const [response] = await conexao.execute(`
                 UPDATE vendedor
                 SET NOME = ?, BAIRRO = ?, RUA = ?, NUMERO_CASA = ?, TELEFONE = ?
@@ -55,7 +55,7 @@ class VendedorModel {
 
     async deleteVendedor(id) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const [response] = await conexao.execute(`
                 DELETE FROM vendedor WHERE ID = ?
             `, [id])

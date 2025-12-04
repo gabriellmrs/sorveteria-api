@@ -4,7 +4,7 @@ class vendaClienteModel {
 
     async createVendaPorNomeCliente(nomeCliente, valorCompra) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
 
             // Buscar o ID do cliente pelo nome
             const [clientes] = await conexao.execute(`
@@ -32,7 +32,7 @@ class vendaClienteModel {
 
     async findAll() {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const [response] = await conexao.execute(`
                 SELECT v.ID, v.VALOR_COMPRA, v.DATA_VENDA, c.NOME AS CLIENTE_NOME
                 FROM venda_cliente v
@@ -47,7 +47,7 @@ class vendaClienteModel {
 
     async findVendasDoDia() {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const [response] = await conexao.execute(`
             SELECT 
                 v.ID, 
@@ -70,7 +70,7 @@ class vendaClienteModel {
     //filtros de pesquisa
     async findByFilter(filtros) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
 
             let sql = `
             SELECT 
@@ -133,7 +133,7 @@ class vendaClienteModel {
 
     async updateVenda(id, valorCompra) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const response = await conexao.execute(`
                 UPDATE venda_cliente SET  VALOR_COMPRA = ?
                 WHERE ID = ?`,
@@ -147,7 +147,7 @@ class vendaClienteModel {
 
     async deleteVenda(id) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const response = await conexao.execute(`
                 DELETE FROM venda_cliente WHERE ID = ?`,
                 [id]
@@ -161,7 +161,7 @@ class vendaClienteModel {
     // Total do mês atual para um cliente específico
     async getTotalMesPorNomeCliente(nomeCliente) {
         try {
-            const conexao = await connectToDataBase();
+            const conexao = connectToDataBase();
             const [rows] = await conexao.execute(`
       SELECT 
         c.NOME AS cliente,
@@ -183,7 +183,7 @@ class vendaClienteModel {
     // Total geral do mês (todos os clientes)
     async getTotalMesGeral() {
         try {
-            const conexao = await connectToDataBase();
+            const conexao = connectToDataBase();
             const [rows] = await conexao.execute(`
       SELECT 
         SUM(VALOR_COMPRA) AS total_geral_mes

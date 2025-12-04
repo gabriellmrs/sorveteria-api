@@ -2,13 +2,13 @@ import { connectToDataBase } from '../db/connection.js';
 
 class UsuarioModel {
   async encontrarPorEmail(email) {
-    const conexao = await connectToDataBase();
+    const conexao = connectToDataBase();
     const [rows] = await conexao.execute('SELECT * FROM usuario WHERE EMAIL = ?', [email]);
     return rows[0];
   }
 
   async salvarCodigoRecuperacao(email, codigo, expiracao) {
-    const conexao = await connectToDataBase();
+    const conexao = connectToDataBase();
     await conexao.execute(
       'UPDATE usuario SET CODIGO_RECUPERACAO = ?, EXPIRACAO_CODIGO = ? WHERE EMAIL = ?',
       [codigo, expiracao, email]
@@ -16,7 +16,7 @@ class UsuarioModel {
   }
 
   async verificarCodigo(email, codigo) {
-    const conexao = await connectToDataBase();
+    const conexao = connectToDataBase();
     const [rows] = await conexao.execute(
       'SELECT * FROM usuario WHERE EMAIL = ? AND CODIGO_RECUPERACAO = ? AND EXPIRACAO_CODIGO > NOW()',
       [email, codigo]
@@ -25,7 +25,7 @@ class UsuarioModel {
   }
 
   async alterarSenha(email, novaSenhaHash) {
-    const conexao = await connectToDataBase();
+    const conexao = connectToDataBase();
     await conexao.execute(
       'UPDATE usuario SET SENHA = ?, CODIGO_RECUPERACAO = NULL, EXPIRACAO_CODIGO = NULL WHERE EMAIL = ?',
       [novaSenhaHash, email]

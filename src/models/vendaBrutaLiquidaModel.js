@@ -3,7 +3,7 @@ import { connectToDataBase } from "../db/connection.js";
 class VendaBrutaLiquidaModel {
   async calcularTotaisMes(mes, ano) {
     try {
-      const conexao = await connectToDataBase();
+      const conexao =  connectToDataBase();
 
       // Total carrinho
       const [carrinhoRows] = await conexao.execute(`

@@ -5,7 +5,7 @@ class SaidaVendedorModel {
   // Criar uma nova saída de produtos para o vendedor
   async criarSaida(idVendedor) {
     try {
-      const conexao = await connectToDataBase();
+      const conexao = connectToDataBase();
       const [result] = await conexao.execute(`
                 INSERT INTO saida_vendedor (id_vendedor) VALUES (?)
             `, [idVendedor]);
@@ -18,7 +18,7 @@ class SaidaVendedorModel {
   // Inserir produtos levados na saída
   async inserirProdutosSaida(idSaida, produtos) {
     try {
-      const conexao = await connectToDataBase();
+      const conexao = connectToDataBase();
 
       for (const p of produtos) {
         await conexao.execute(`
@@ -38,7 +38,7 @@ class SaidaVendedorModel {
   // Atualizar quantidade de retorno por nome do vendedor, produto e data atual
   async atualizarRetornoPorNomeEProduto(nomeVendedor, produto, quantidadeRetorno) {
     try {
-      const conexao = await connectToDataBase();
+      const conexao = connectToDataBase();
       const [result] = await conexao.execute(`
       UPDATE saida_produtos_vendedor spv
       JOIN saida_vendedor sv ON spv.id_saida = sv.id
@@ -58,7 +58,7 @@ class SaidaVendedorModel {
   // Consultar saída detalhada por ID
   async consultarSaidaDetalhada(idSaida) {
     try {
-      const conexao = await connectToDataBase();
+      const conexao = connectToDataBase();
       const [rows] = await conexao.execute(`
                 SELECT 
                     v.nome AS vendedor,
@@ -83,7 +83,7 @@ class SaidaVendedorModel {
   // Calcular o total a pagar por saída
   async calcularTotalAPagar(idSaida) {
     try {
-      const conexao = await connectToDataBase();
+      const conexao = connectToDataBase();
       const [rows] = await conexao.execute(`
                 SELECT 
                     SUM(total_unidade) AS total_a_pagar
@@ -99,7 +99,7 @@ class SaidaVendedorModel {
   // Deletar uma saída (e seus produtos)
   async deletarSaida(idSaida) {
     try {
-      const conexao = await connectToDataBase();
+      const conexao = connectToDataBase();
       await conexao.execute(`
                 DELETE FROM saida_produtos_vendedor WHERE id_saida = ?
             `, [idSaida]);
@@ -115,7 +115,7 @@ class SaidaVendedorModel {
   // Consultar produtos do vendedor em saídas do dia atual
   async consultarProdutosDoDiaPorVendedor(nomeVendedor) {
     try {
-      const conexao = await connectToDataBase();
+      const conexao = connectToDataBase();
       const [rows] = await conexao.execute(`
       SELECT 
         spv.produto,
@@ -139,7 +139,7 @@ class SaidaVendedorModel {
   // Calcular total do dia por nome do vendedor
   async calcularTotalDoDiaPorVendedor(nomeVendedor) {
     try {
-      const conexao = await connectToDataBase();
+      const conexao = connectToDataBase();
       const [rows] = await conexao.execute(`
       SELECT 
           SUM(spv.total_unidade) AS total_a_pagar
@@ -159,7 +159,7 @@ class SaidaVendedorModel {
   // Model - adicionar método para inserir produto com nome do vendedor e data atual
   async inserirProdutoPorNome(produto, quantidade_saida, quantidade_retorno, valor_unidade, nomeVendedor) {
     try {
-      const conexao = await connectToDataBase();
+      const conexao = connectToDataBase();
       const [result] = await conexao.execute(`
       INSERT INTO saida_produtos_vendedor (
         id_saida,
@@ -186,7 +186,7 @@ class SaidaVendedorModel {
   // Verificar se já existe uma saída hoje para o vendedor
   async verificarSaidaHojePorNome(nomeVendedor) {
     try {
-      const conexao = await connectToDataBase();
+      const conexao = connectToDataBase();
       const [rows] = await conexao.execute(`
       SELECT sv.id AS idSaida
       FROM saida_vendedor sv
@@ -209,7 +209,7 @@ class SaidaVendedorModel {
   // Calcular total do mês por nome do vendedor
   async calcularTotalMesPorVendedor(nomeVendedor) {
     try {
-      const conexao = await connectToDataBase();
+      const conexao = connectToDataBase();
       const [rows] = await conexao.execute(`
       SELECT 
         SUM(spv.total_unidade) AS total_mes
@@ -230,7 +230,7 @@ class SaidaVendedorModel {
   // Calcular total do mês para todos os vendedores
   async calcularTotalMesTodosVendedores() {
     try {
-      const conexao = await connectToDataBase();
+      const conexao = connectToDataBase();
       const [rows] = await conexao.execute(`
       SELECT 
         SUM(spv.total_unidade) AS total_geral_mes
@@ -248,7 +248,7 @@ class SaidaVendedorModel {
     // Atualizar quantidade de saída de um produto
   async atualizarQuantidadeProduto(idSaida, produto, novaQuantidade) {
     try {
-      const conexao = await connectToDataBase();
+      const conexao = connectToDataBase();
       const [result] = await conexao.execute(`
         UPDATE saida_produtos_vendedor
         SET quantidade_saida = ?
@@ -264,7 +264,7 @@ class SaidaVendedorModel {
   // Remover um produto da saída
   async removerProduto(idSaida, produto) {
     try {
-      const conexao = await connectToDataBase();
+      const conexao = connectToDataBase();
       const [result] = await conexao.execute(`
         DELETE FROM saida_produtos_vendedor
         WHERE id_saida = ? AND produto = ?

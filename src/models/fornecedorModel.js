@@ -4,7 +4,7 @@ class fornecedorModel {
 
     async createFornecedor(nome, telefone) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const response = conexao.execute(`
                 INSERT INTO fornecedor (NOME, TELEFONE) VALUES (?,?)`, [nome, telefone || null])
             return response
@@ -16,7 +16,7 @@ class fornecedorModel {
 
     async findAll() {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const [response] = await conexao.execute(`SELECT * FROM fornecedor`)
             return response
         }
@@ -27,7 +27,7 @@ class fornecedorModel {
 
     async findByName(nome) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const [rows] = await conexao.execute('SELECT * FROM fornecedor WHERE NOME LIKE ?', [`%${nome}%`])
             return rows
         }
@@ -38,7 +38,7 @@ class fornecedorModel {
 
     async updateFornecedor(id, nome, telefone) {
         try {
-            const conexao = await connectToDataBase()
+            const conexao = connectToDataBase()
             const response = await conexao.execute(`
                 UPDATE fornecedor SET NOME = ?, TELEFONE = ? WHERE ID = ?`,
             [nome, telefone || null, id])
@@ -51,7 +51,7 @@ class fornecedorModel {
 
     async deleteFornecedor(id) {
         try {
-            const conexo = await connectToDataBase()
+            const conexo = connectToDataBase()
             const response = await conexo.execute(`DELETE FROM fornecedor WHERE ID = ?`, [id])
             return response
         }
